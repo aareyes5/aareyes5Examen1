@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Países en América</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #countries-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Países en Africa</h1>
+
+  <button onclick="getCountries()">Mostrar Países</button>
+
+  <ul id="countries-list"></ul>
+
+  <script>
+    function getCountries() {
+      // URL de la API de REST Countries para obtener países en América
+      var apiUrl = 'https://restcountries.com/v3.1/all';
+
+      // Realizar la solicitud GET a la API
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          // Filtrar los países de América (puedes ajustar este criterio según tus necesidades)
+          var americaCountries = data.filter(country => country.region === 'Africa');
+
+          // Mostrar la lista de países en el HTML
+          displayCountries(americaCountries);
+        })
+        .catch(error => {
+          console.error('Error al obtener datos de la API', error);
+        });
+    }
+
+    function displayCountries(countries) {
+      var countriesList = document.getElementById('countries-list');
+      countriesList.innerHTML = ''; // Limpiar la lista antes de mostrar nuevos datos
+
+      // Mostrar cada país en la lista
+      countries.forEach(country => {
+        var listItem = document.createElement('li');
+        listItem.textContent = `${country.name.common} - ${country.cca3}`;
+        countriesList.appendChild(listItem);
+      });
+    }
+  </script>
+
+</body>
+</html>

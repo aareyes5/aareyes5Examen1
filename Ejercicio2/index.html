@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="component.js"></script>
+</head>
+<body>
+    
+    <receptor-component id="receptor-component"></receptor-component>
+    <emisor-component id="emisor-component"></emisor-component>
+</body>
+<script>
+    const btn = document.getElementById('emisor-component');
+    const text = document.getElementById('receptor-component');
+    btn.addEventListener('cambio-texto', () => {
+        text.cambiarTexto();
+    })
+</script>
+</html>

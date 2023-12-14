@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Composición de Componentes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+   <div class="container card mt-5">
+
+
+    <!-- Instancia del Componente Contenedor -->
+    <contenedor-component>
+      <my-header slot="header"></my-header>
+
+      <my-content slot="content"></my-content>
+    </contenedor-component>
+  </div>
+  <!-- Agrega los scripts de Bootstrap al final del body para mejorar el rendimiento -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+<script>
+  // Componente Contenedor
+  class MyContainer extends HTMLElement {
+    constructor() {
+      super();
+
+      // Crear Shadow DOM
+      this.attachShadow({ mode: 'open' });
+
+      // Definir la estructura del componente contenedor con slots
+      this.shadowRoot.innerHTML = `
+      <div>
+        <slot name="header"></slot>
+        <slot name="content"></slot>
+       </div>
+    `;
+    }
+  }
+
+  // Registrar el componente contenedor
+  customElements.define('contenedor-component', MyContainer);
+
+  // Componente de Encabezado
+  class MyHeader extends HTMLElement {
+    constructor() {
+      super();
+
+      // Crear Shadow DOM
+      this.attachShadow({ mode: 'open' });
+
+      // Definir la estructura del componente de encabezado
+      this.shadowRoot.innerHTML = `
+      <header>
+        <img src="1aGO.gif">
+      </header>
+    `;
+    }
+  }
+
+  // Registrar el componente de encabezado
+  customElements.define('my-header', MyHeader);
+
+
+  // Componente de Contenido
+  class MyContent extends HTMLElement {
+    constructor() {
+      super();
+
+      // Crear Shadow DOM
+      this.attachShadow({ mode: 'open' });
+
+      // Definir la estructura del componente de contenido
+      this.shadowRoot.innerHTML = `
+      <section>
+        <h2>¡Hola 2!</h2>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos perspiciatis voluptatibus ipsam quaerat blanditiis? Enim, placeat odio culpa quisquam quam voluptate quia totam voluptatum reiciendis at? Unde officia quas maxime.</p>
+      </section>
+    `;
+    }
+  }
+
+  // Registrar el componente de contenido
+  customElements.define('my-content', MyContent);
+</script>
+
+</html>
