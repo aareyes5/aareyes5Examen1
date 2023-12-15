@@ -8,75 +8,66 @@
 </head>
 <body>
 <div class="container text-center mt-5">
-  <h3>Actividad 5:</h3>
+  <h3>Actividad  5:
+    </h3>
   <counter-component></counter-component>
-</div>
 
+  
+</div>
 <!-- Definición del componente -->
 <script>
   class CounterComponent extends HTMLElement {
     constructor() {
       super();
-      this.counter = 0;
-      this.incrementInterval = null;
-      this.decrementInterval = null;
-
+      this._counter = 0;
+      this.incrementButton = null;
+      this.decrementButton = null;
+    }
       // Crear el shadow DOM
-      this.attachShadow({ mode: 'open' });
+      connectedCallback() {
+      this.render();
+      this.attachListeners();
+    }
 
       // Renderizar el contenido inicial
-      this.render();
-
-      // Añadir eventos a los botones
-      this.shadowRoot.querySelector('#botonIncrement').addEventListener('click', () => this.startIncrement());
- 
-      this.shadowRoot.querySelector('#botonIncrement').addEventListener('click', () => this.stopIncrement());
-      
+      render() {
+      this.innerHTML = `
+       
+            Contador
+         
+          <div class="card-body">
+            <h5 class="card-title">Cuenta: ${this._counter}</h5>
+            <button id="increment" class="btn btn-secondary mr-2">+</button>
+            <button id="decrement" class="btn btn-secondary">-</button>
+          </div>
+          <div class="card-footer text-muted">
+            Componente de Contador
+          </div>
+        </div>
+      `;
+      this.incrementButton = this.querySelector('#increment');
+      this.decrementButton = this.querySelector('#decrement');
     }
-
-    startIncrement() {
-      this.increment();
-      this.incrementInterval = setInterval(() => this.increment(), 200);
-    }
-
-    stopIncrement() {
-      clearInterval(this.incrementInterval);
-    }
-
-    startDecrement() {
-      this.decrement();
-      this.decrementInterval = setInterval(() => this.decrement(), 200);
-    }
-
-    stopDecrement() {
-      clearInterval(this.decrementInterval);
+    attachListeners() {
+      this.incrementButton.addEventListener('click', this.increment.bind(this));
+      this.decrementButton.addEventListener('click', this.decrement.bind(this));
     }
 
     increment() {
       this.counter++;
-      this.render();
+      this.update();
     }
 
     decrement() {
       this.counter--;
-      this.render();
+      this.update();
     }
 
-    render() {
-      this.shadowRoot.innerHTML = `
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-        <style>
-          /* Estilos opcionales para el componente */
-        </style>
-        
-        <div>
-          <h4>Contador</h4>
-          <p>Contador: ${this.counter}</p>
-          <button class="btn btn-secondary" id="botonIncrement">+</button>
-          <button class="btn btn-secondary" id="btnDecrement">-</button>
-        </div>
-       `;
+    update() {
+      this.incrementButton.removeEventListener('click', this.increment.bind(this));
+      this.decrementButton.removeEventListener('click', this.decrement.bind(this));
+      this.render();
+      this.attachListeners();
     }
   }
 
@@ -85,5 +76,7 @@
 </script>
 
 <!-- Uso del componente -->
+
+
 </body>
 </html>
